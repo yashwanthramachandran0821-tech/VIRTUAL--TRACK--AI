@@ -1,0 +1,114 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/vitalstrack
+      - REDIS_URL=redis://redis:6379/0
+      - INFLUXDB_URL=http://influxdb:8086
+      - DEMOGRAPHIC_ANALYSIS_ENABLED=true
+      - GENDER_SPECIFIC_THRESHOLDS=true
+      - AGE_GROUP_ANALYSIS=true
+    depends_on:
+      - db
+      - redis
+      - influxdb
+    volumes:
+      - ./src:/app/src
+      - ./data:/app/data
+      - ./demographic_data:/app/demographic_data  # NEW
+    command: uvicorn src.app:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - vitalstrack-network
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=vitalstrack
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init_demographic.sql:/docker-entrypoint-initdb.d/init_demographic.sql  # NEW
+    networks:
+      - vitalstrack-network
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+    networks:
+      - vitalstrack-network
+
+  influxdb:
+    image: influxdb:2.7-alpine
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=admin123
+      - DOCKER_INFLUXDB_INIT_ORG=vitalstrack
+      - DOCKER_INFLUXDB_INIT_BUCKET=vitals
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-super-secret-auth-token
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+    networks:
+      - vitalstrack-network
+
+  grafana:
+    image: grafana/grafana:10.2.0
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards  # NEW
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources  # NEW
+    depends_on:
+      - influxdb
+    networks:
+      - vitalstrack-network
+
+  demographic-worker:  # NEW
+    build: .
+    command: python scripts/demographic_analysis_worker.py
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/vitalstrack
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+      - db
+    volumes:
+      - ./src:/app/src
+      - ./data:/app/data
+    networks:
+      - vitalstrack-network
+
+  demographic-api:  # NEW
+    build: .
+    ports:
+      - "8001:8001"
+    command: uvicorn src.api.demographic_endpoints:app --host 0.0.0.0 --port 8001
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/vitalstrack
+    depends_on:
+      - db
+    volumes:
+      - ./src:/app/src
+    networks:
+      - vitalstrack-network
+
+networks:
+  vitalstrack-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+  influxdb_data:
+  grafana_data:
+  demographic_data:  # NEW
