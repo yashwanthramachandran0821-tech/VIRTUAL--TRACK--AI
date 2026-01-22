@@ -1,0 +1,174 @@
+:root {
+    /* Color Palette */
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-gradient: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+    --bg-color: #f4f7f9;
+    --card-bg: #ffffff;
+    --text-main: #2d3436;
+    --text-muted: #636e72;
+    
+    /* Risk Colors */
+    --high-risk: #ff7675;
+    --medium-risk: #fab1a0;
+    --low-risk: #55efc4;
+    --female-color: #fd79a8;
+    --male-color: #0984e3;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-main);
+    margin: 0;
+}
+
+/* Header Styling */
+.dashboard-header {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 500;
+}
+
+/* Main Container */
+.demographic-container {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* Cards & Sections */
+.analysis-section {
+    margin-bottom: 3rem;
+}
+
+.analysis-section h2 {
+    color: #4834d4;
+    border-left: 5px solid #4834d4;
+    padding-left: 15px;
+    margin-bottom: 1.5rem;
+}
+
+/* Grid Layouts */
+.analysis-grid, .stratification-grid, .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.overview-card, .analysis-card, .stratification-card, .insight-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.overview-card:hover, .analysis-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Stat Items */
+.overview-stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem 0;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #4834d4;
+    margin-top: 0.5rem;
+}
+
+/* Risk Stratification Colors */
+.high-risk { border-top: 5px solid var(--high-risk); }
+.medium-risk { border-top: 5px solid var(--medium-risk); }
+.low-risk { border-top: 5px solid var(--low-risk); }
+
+.high-risk i { color: var(--high-risk); }
+.medium-risk i { color: var(--medium-risk); }
+.low-risk i { color: var(--low-risk); }
+
+/* Insight Icons Color Coding */
+.fa-venus { color: var(--female-color); }
+.fa-mars { color: var(--male-color); }
+.fa-user-clock { color: #6c5ce7; }
+.fa-baby { color: #00cec9; }
+
+/* Table Styling */
+.norms-table-container {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.norms-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.norms-table th {
+    background: #f8f9fa;
+    color: var(--text-muted);
+    padding: 1.2rem;
+    text-align: left;
+    font-weight: 600;
+}
+
+.norms-table td {
+    padding: 1.2rem;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.norms-table tr:hover {
+    background-color: #f1f2f6;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-secondary {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.4);
+}
+
+.btn-secondary:hover {
+    background: white;
+    color: #764ba2;
+}
+
+/* Chart Container height */
+.chart-container {
+    min-height: 300px;
+    width: 100%;
+}
