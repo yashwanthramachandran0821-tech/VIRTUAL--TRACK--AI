@@ -2,9 +2,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class DemographicAnalytics {
+public class Demographic_Analytics {
     public static void main(String[] args) {
-        initializeDemographicAnalytics();
+        initializeDemographic_Analytics();
     }
 class DemographicAnalytics {
     constructor() {
@@ -561,3 +561,4 @@ if (typeof module !== 'undefined' && module.exports) {
     };
 
 }
+
