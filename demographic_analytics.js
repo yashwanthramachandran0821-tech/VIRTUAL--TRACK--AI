@@ -1,5 +1,31 @@
 // Demographic Analytics JavaScript
+// Remove all the Java imports and 'public class' stuff from the top
 
+class DemographicAnalytics {
+    constructor() {
+        this.overviewData = null;
+        this.genderAnalysis = null;
+        this.ageGroupAnalysis = null;
+        this.riskStratification = null;
+        this.demographicInsights = null;
+        this.populationNorms = null;
+    }
+}
+
+const analytics = new DemographicAnalytics();
+
+document.addEventListener('DOMContentLoaded', function() {
+    initializeDemographicAnalytics();
+});
+
+async function initializeDemographicAnalytics() {
+    try {
+        console.log("Initializing...");
+        // Your logic here
+    } catch (error) {
+        console.error("Initialization failed", error);
+    }
+}
 document.addEventListener('DOMContentLoaded', function() {
     initializeDemographicAnalytics();
 });
@@ -542,3 +568,4 @@ if (typeof module !== 'undefined' && module.exports) {
         loadAgeGroupAnalysis
     };
 }
+
