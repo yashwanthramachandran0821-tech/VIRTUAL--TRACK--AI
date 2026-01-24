@@ -12,52 +12,10 @@ from scipy import stats
 import plotly.graph_objects as go
 import plotly.express as px
 
-# Try to import demographic constants from a few common locations.
-# Many projects expose modules under a top-level `src` package when installed
-# or when running from the repository root; when running the file directly
-# from Downloads (or another folder) that package path may not exist.
-try:
-    from src.utils.demographic_constants import (
-        Gender, AgeGroup, AgeSubGroup,
-        DemographicConstants
-    )
-except Exception:
-    # Try a few fallbacks: a local `utils` package, or a module in the same dir.
-    try:
-        from utils.demographic_constants import (
-            Gender, AgeGroup, AgeSubGroup,
-            DemographicConstants
-        )
-    except Exception:
-        try:
-            from demographic_constants import (
-                Gender, AgeGroup, AgeSubGroup,
-                DemographicConstants
-            )
-        except Exception:
-            # As a last resort, add the parent directory to sys.path and try again.
-            import os
-            import sys
-
-            parent = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-            if parent not in sys.path:
-                sys.path.insert(0, parent)
-
-            try:
-                from src.utils.demographic_constants import (
-                    Gender, AgeGroup, AgeSubGroup,
-                    DemographicConstants
-                )
-            except Exception:
-                # Provide a clear error explaining what to do next.
-                raise ModuleNotFoundError(
-                    "Could not import 'demographic_constants'.\n"
-                    "Tried: 'src.utils.demographic_constants', 'utils.demographic_constants', and 'demographic_constants'.\n"
-                    "If this module is part of your project, either:\n"
-                    "  * Run the script from the project root where the 'src' package is resolvable, or\n"
-                    "  * Install the package (pip install -e .) so 'src' is importable, or\n"
-                    "  * Move 'demographic_constants.py' into the same folder as this script or create a 'utils' package.\n"
-                )
+from src.utils.demographic_constants import (
+    Gender, AgeGroup, AgeSubGroup,
+    DemographicConstants
+)
 
 @dataclass
 class DemographicProfile:
