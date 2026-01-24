@@ -13,7 +13,7 @@ class Gender(str, Enum):
     MALE = "M"
     FEMALE = "F"
     OTHER = "O"
-    
+    UNKNOWN = "U"
 
 class AgeGroup(str, Enum):
     """Age group categories"""
